@@ -9,7 +9,7 @@ public class RoundedButton extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(false);
         setForeground(Color.WHITE);
-        setFont(new Font("Segoe UI", Font.BOLD, 13));
+        setFont(new Font("Segoe UI", Font.BOLD, 20));
     }
 
     @Override

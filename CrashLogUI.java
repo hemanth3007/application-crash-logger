@@ -32,12 +32,18 @@ public class CrashLogUI {
         inputPanel.setBorder(BorderFactory.createTitledBorder("Crash Details"));
         inputPanel.setBackground(new Color(240, 240, 240));
 
+        JLabel idLabel = new JLabel("Crash ID: ");
+        idLabel.setFont(idLabel.getFont().deriveFont(18f));
+        JLabel messageLabel = new JLabel("Crash Message: ");
+        messageLabel.setFont(messageLabel.getFont().deriveFont(18f));
+
         JTextField idField = createStyledTextField();
         JTextField messageField = createStyledTextField();
 
-        inputPanel.add(new JLabel("Crash ID:"));
+        inputPanel.add(idLabel);
         inputPanel.add(idField);
-        inputPanel.add(new JLabel("Crash Message:"));
+
+        inputPanel.add(messageLabel);
         inputPanel.add(messageField);
 
         //BUTTON PANEL
@@ -63,7 +69,7 @@ public class CrashLogUI {
         //OUTPUT PANEL
         JTextArea outputArea = new JTextArea(10, 2);
         outputArea.setEditable(false);
-        outputArea.setFont(new Font("JetBrains Mono", Font.PLAIN, 20));
+        outputArea.setFont(new Font("JetBrains Mono", Font.PLAIN, 18));
         outputArea.setLineWrap(true);
         outputArea.setWrapStyleWord(true);
         outputArea.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -146,7 +152,7 @@ public class CrashLogUI {
     //Styled TextField
     private JTextField createStyledTextField() {
         JTextField field = new JTextField();
-        field.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
+        field.setFont(new Font("JetBrains Mono", Font.PLAIN, 20));
         field.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(180, 180, 180), 1, true),
                 new EmptyBorder(5, 5, 5, 5)
