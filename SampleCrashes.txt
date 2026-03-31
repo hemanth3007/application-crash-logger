@@ -1,0 +1,22 @@
+Crash ID			Crash Message
+CR001				NPE:NullPointerException in LoginService
+CR002				AIOOB:ArrayIndexOutOfBounds at CrashLogUI line 59
+CR003				DB:Database connection timeout while saving logs
+CR004				IAE:IllegalArgumentException in UserInputParser
+CR005				OOM:OutOfMemoryError during video encoding
+CR006				FNF:FileNotFoundException config.properties missing
+CR007				SEG:Segmentation fault caused unexpected shutdown
+CR008				CME:ConcurrentModificationException in thread pool
+CR009				IO:IOException while writing crash report
+CR010				SOE:StackOverflowError in recursive function call
+
+
+CR201				OOM:Unexpected OutOfMemoryError while loading dataset
+CR202				FNF:Unexpected FileNotFoundException for config.properties
+CR203				SEG:Unexpected segmentation fault during file parsing
+CR204				DB:Unexpected database disconnect during transaction commit
+CR205				IO:Unexpected IOException while writing crash report
+CR206				NET:Unexpected network failure while sending logs
+CR207				CME:Unexpected ConcurrentModificationException in thread pool
+CR208				SOE:Unexpected StackOverflowError in recursive function call
+				
