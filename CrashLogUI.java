@@ -2,6 +2,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -61,7 +62,13 @@ public class CrashLogUI {
         filterButton.setPreferredSize(btnSize);
         sortButton.setPreferredSize(btnSize);
 
+        // Important part for ItemListerner to filter logs based on dropdown selection.
+        String[] options = {"Select View", "All Logs", "Unexpected Only"};
+        JComboBox<String> filterBox = new JComboBox<>(options);
+        filterBox.setPreferredSize(new Dimension(150, 35));
+
         buttonPanel.add(addButton);
+        buttonPanel.add(filterBox);
         buttonPanel.add(displayButton);
         buttonPanel.add(filterButton);
         buttonPanel.add(sortButton);
@@ -116,11 +123,10 @@ public class CrashLogUI {
         displayButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (service.getLogs().isEmpty()) {
-                    JOptionPane.showMessageDialog(frame, "No logs to Display!", "Info", JOptionPane.INFORMATION_MESSAGE);
-                    return;
+                String result = getSelectedLogs(filterBox, frame);
+                if (result != null) {
+                    outputArea.setText(result);
                 }
-                outputArea.setText(service.getAllLogs());
             }
         });
 
@@ -129,11 +135,11 @@ public class CrashLogUI {
                 JOptionPane.showMessageDialog(frame, "No Logs!", "Info", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
-
             if (service.getUnexpectedCrashes().isEmpty()) {
-                JOptionPane.showMessageDialog(frame, "No Unexpected Logs to Filter!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "No Unexpected Logs!", "Info", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
+            filterBox.setSelectedItem("Unexpected Only");
             outputArea.setText(service.getUnexpectedCrashes());
         });
 
@@ -143,10 +149,50 @@ public class CrashLogUI {
                 return;
             }
             service.sortLogsById();
-            outputArea.setText(service.getAllLogs());
+            String result = getSelectedLogs(filterBox, frame);
+            if (result != null) {
+                outputArea.setText(result);
+            }
+        });
+
+        filterBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                if (filterBox.getSelectedItem().equals("Select View")) {
+                    JOptionPane.showMessageDialog(frame, "Please select log type!", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+
         });
 
         frame.setVisible(true);
+    }
+    //Getting selected logs from dropdown and displaying in output area. Not used anywhere else.
+
+    private String getSelectedLogs(JComboBox<String> filterBox, JFrame frame) {
+        String selected = (String) filterBox.getSelectedItem();
+        if (selected.equals("Select View")) {
+            JOptionPane.showMessageDialog(frame, "Please select log type!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+        if (selected.equals("All Logs")) {
+            if (service.getLogs().isEmpty()) {
+                JOptionPane.showMessageDialog(frame, "No Logs!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                return null;
+            }
+            return service.getAllLogs();
+        }
+        if (selected.equals("Unexpected Only")) {
+            if (service.getLogs().isEmpty()) {
+                JOptionPane.showMessageDialog(frame, "No Logs!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                return null;
+            }
+            if (service.getUnexpectedCrashes().isEmpty()) {
+                JOptionPane.showMessageDialog(frame, "No Unexpected Logs!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                return null;
+            }
+            return service.getUnexpectedCrashes();
+        }
+        return null;
     }
 
     //Styled TextField
